@@ -106,6 +106,12 @@ npm install
 npm run check
 ```
 
+### 构建
+
+```bash
+npm run build
+```
+
 ### CLI 示例
 
 ```bash
@@ -113,6 +119,12 @@ npm start -- "团队里沟通反复、优先级不清，项目推进越来越慢
 ```
 
 默认会输出 Markdown 结果。
+
+开发时也可以直接运行 TypeScript 入口：
+
+```bash
+npm run dev -- "团队里沟通反复、优先级不清，项目推进越来越慢"
+```
 
 ## 代码调用
 

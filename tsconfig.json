@@ -3,6 +3,8 @@
     "target": "ES2022",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "rootDir": ".",
+    "outDir": "./dist",
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -10,15 +12,13 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "declaration": false,
-    "typeRoots": [
-      "../memory-lancedb-pro/node_modules/@types"
-    ],
     "types": [
       "node"
     ]
   },
   "include": [
     "./index.ts",
+    "./tests/**/*.ts",
     "./src/**/*.ts",
     "./src/**/*.d.ts"
   ]

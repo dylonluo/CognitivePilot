@@ -1,25 +1,29 @@
 import type { FourQuestionsAnalysis } from "../types.js";
+import { extractInputInsights } from "./input-insights.js";
 
-function summarizeFocus(input: string): string {
-  return `当前最重要的是先澄清问题目标与限制条件，避免被表面现象带偏。问题核心围绕：${input.trim().slice(0, 60)}。`;
+function joinItems(items: string[]): string {
+  return items.join("、");
 }
 
 export function analyzeFourQuestions(input: string): FourQuestionsAnalysis {
-  const trimmed = input.trim();
+  const insights = extractInputInsights(input);
+  const constraints = joinItems(insights.constraints);
+  const stakeholders = joinItems(insights.stakeholders);
 
   return {
-    whatMatters: summarizeFocus(trimmed),
-    howToBreakdown:
-      "先拆成目标、现状、约束、可选方案四部分，再逐一确认哪些信息已知、哪些需要补充，最后收敛到最小可执行方案。",
+    whatMatters: `你描述的表象是“${insights.summary}”，但真正重要的是先围绕“${insights.goal}”重新定义问题。当前更值得优先盯住的不是所有症状，而是“${insights.friction}”。`,
+    howToBreakdown: `先按四块拆开：1）目标是否真的是“${insights.goal}”；2）当前最大卡点是否集中在“${insights.primaryTopic}”；3）现实约束里最硬的部分是${constraints}；4）谁会影响推进结果，尤其是${stakeholders}。拆清这四块后，再决定先处理哪个最小闭环。`,
     missingPerspectives: [
-      "是否忽略了真正的成功标准，而只盯着当前症状？",
-      "是否少了关键约束，例如时间、资源、权限或依赖关系？",
-      "是否从执行者、协作者和最终受影响者三个视角分别看过问题？"
+      `是否把“${insights.goal}”说成了大家都能检验的成功标准？`,
+      `有没有低估${constraints}对推进顺序的影响？`,
+      `${insights.missingInfo[0]}`,
+      `${insights.missingInfo[1] ?? `是否已经分别从${stakeholders}的角度看过问题？`}`
     ],
     nextActions: [
-      `用一句话重述问题：${trimmed.slice(0, 50)}${trimmed.length > 50 ? "..." : ""}`,
-      "列出3个已知事实与3个未知假设，先验证最关键假设。",
-      "确定一个今天就能推进的最小动作，并设置检查点。"
+      `用一句话重述问题：为了${insights.goal}，我们必须先解决“${insights.friction}”。`,
+      `列出 3 个已知事实和 3 个未知假设，优先验证“${insights.missingInfo[0]}”。`,
+      `今天先执行的最小动作：${insights.nextAction}。`,
+      `如果 24 小时内没有进展，就回头检查是否误判了“${insights.primaryTopic}”这个主卡点。`
     ]
   };
 }

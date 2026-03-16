@@ -18,8 +18,11 @@
     ]
   },
   "scripts": {
+    "build": "tsc -p tsconfig.json",
     "check": "tsc --noEmit",
-    "start": "node --loader ts-node/esm index.ts"
+    "dev": "node --loader ts-node/esm index.ts",
+    "start": "npm run build && node dist/index.js",
+    "test": "npm run build && node --test dist/tests/**/*.test.js"
   },
   "devDependencies": {
     "ts-node": "^10.9.2",

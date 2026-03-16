@@ -48,11 +48,11 @@ function frameworkLabel(framework: Framework): string {
   return labels[framework];
 }
 
-function estimatedDuration(framework: Framework): string {
+function suggestedReflectionTime(framework: Framework): string {
   const minutes: Record<Framework, string> = {
-    "four-questions": "预计10分钟",
-    "six-dimensions": "预计15分钟",
-    "nine-masters": "预计25分钟"
+    "four-questions": "建议思考10分钟",
+    "six-dimensions": "建议思考15分钟",
+    "nine-masters": "建议思考25分钟"
   };
 
   return minutes[framework];
@@ -150,7 +150,7 @@ function formatOutput(
 
   const header = [
     `【场景判断】${sceneLabel(scene)}`,
-    `【选用框架】${frameworkLabel(framework)}（${estimatedDuration(framework)}）`,
+    `【选用框架】${frameworkLabel(framework)}（${suggestedReflectionTime(framework)}）`,
     ""
   ];
 
@@ -219,6 +219,8 @@ async function runCli(): Promise<void> {
   console.log(result);
 }
 
-if (process.argv[1]?.endsWith("index.ts")) {
+const cliEntry = process.argv[1] ?? "";
+
+if (cliEntry.endsWith("index.ts") || cliEntry.endsWith("index.js")) {
   void runCli();
 }

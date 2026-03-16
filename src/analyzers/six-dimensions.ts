@@ -1,37 +1,50 @@
 import type { SixDimensionsAnalysis } from "../types.js";
+import { extractInputInsights } from "./input-insights.js";
 
-function buildEssence(input: string): string {
-  return `第一性原理上，这个问题要回答的是“为了达成目标，哪些条件必须成立”。结合当前输入，核心主题是：${input.trim().slice(0, 70)}。`;
+function urgencyLabel(urgency: "low" | "medium" | "high"): string {
+  if (urgency === "high") {
+    return "高";
+  }
+
+  if (urgency === "medium") {
+    return "中";
+  }
+
+  return "低";
+}
+
+function joinItems(items: string[]): string {
+  return items.join("、");
 }
 
 export function analyzeSixDimensions(input: string): SixDimensionsAnalysis {
-  const trimmed = input.trim();
+  const insights = extractInputInsights(input);
+  const constraints = joinItems(insights.constraints);
+  const stakeholders = joinItems(insights.stakeholders);
+  const secondaryTopics =
+    insights.secondaryTopics.length > 0 ? `，同时还牵涉到${joinItems(insights.secondaryTopics)}` : "";
 
   return {
     core: {
-      essence: buildEssence(trimmed),
-      contradiction:
-        "主要矛盾通常在“理想目标”和“现实约束”之间。先识别最妨碍结果的那一个瓶颈，而不是同时处理所有问题。",
-      keyTwenty:
-        "关键20%往往是最少数但最有杠杆的关系、决策或动作。优先找出一个决定结果的节点，而不是做更多平均分配的努力。"
+      essence: `第一性原理上，这不是单纯的“${insights.summary}”问题，而是在做“${insights.goal}”时，被“${insights.primaryTopic}”卡住${secondaryTopics}。要成立，至少要同时满足目标清晰、责任明确、约束可管理这三个条件。`,
+      contradiction: `主要矛盾是：一边希望“${insights.goal}”，另一边又受到“${insights.friction}”和“${constraints}”的限制。先处理最影响结果的那一条，而不是平均用力。`,
+      keyTwenty: `关键 20% 很可能就是“${insights.leveragePoint}”。如果这里只能做一件高杠杆动作，优先做它。`
     },
-    breakdown:
-      "建议按 MECE 拆成：目标定义、参与角色、资源条件、阻力来源、备选路径。若阻力不清晰，再对最大卡点做 5 Why 深挖。",
+    breakdown: `建议按 MECE 拆成五块：目标定义是否一致；${stakeholders}分别承担什么责任；约束里最硬的是${constraints}；当前阻力是否集中在“${insights.primaryTopic}”；如果主路径不通，还有哪些备选路径。`,
     perspectives: [
-      "事实视角：哪些客观数据或事件已经发生？",
-      "关系视角：谁会支持、谁会阻碍、谁需要被提前对齐？",
-      "风险视角：如果继续按当前方式推进，最可能出什么问题？",
-      "机会视角：有没有能快速放大成果的小切口？",
-      "创新视角：是否可以调整流程、角色或表达方式来降阻？",
-      "整合视角：什么顺序最能降低摩擦并提高成功率？"
+      `事实视角：先验证“${insights.missingInfo[0]}”，别让判断建立在想象上。`,
+      `关系视角：${stakeholders}里，谁需要先被对齐，谁是决定推进速度的人？`,
+      `风险视角：如果继续按当前方式推进，最可能发生的是“${insights.risks[0]}”。`,
+      `机会视角：最值得放大的小切口是“${insights.opportunities[0]}”。`,
+      `创新视角：能不能通过重排顺序、缩小范围或改变协作方式来实现“${insights.leveragePoint}”？`,
+      `整合视角：在当前紧迫度为${urgencyLabel(insights.urgency)}的情况下，什么顺序最能降低摩擦并提高成功率？`
     ],
-    synthesis:
-      "正题是推进目标，反题是现实阻力，合题是设计一条既不过度理想化也不被现实拖死的折中路径。",
+    synthesis: `正题是“${insights.goal}”，反题是“${insights.friction}”，合题不是二选一，而是先用“${insights.leveragePoint}”撬开局面，再逐步处理剩余约束。`,
     priority: [
-      "先处理影响结果且当前可控的关键事项。",
-      "把重要但不紧急的准备动作提前安排，避免后续被动。",
-      "把紧急但低杠杆的杂务能委派就委派。",
-      "删掉既不重要也不紧急的噪音动作。"
+      `先处理最影响结果且当前可控的关键事项：${insights.nextAction}。`,
+      `把重要但不紧急的准备动作提前安排，例如补齐“${insights.missingInfo[0]}”和“${insights.missingInfo[1] ?? insights.missingInfo[0]}”。`,
+      `把低杠杆但会打断节奏的杂务尽量委派，避免继续被“${insights.friction}”牵着走。`,
+      `删掉与“${insights.goal}”无关、又不能缓解“${insights.primaryTopic}”的动作。`
     ]
   };
 }

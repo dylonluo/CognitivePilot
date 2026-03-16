@@ -148,6 +148,10 @@ function detectType(normalizedInput: string): SceneType {
 
   for (const rule of SCENE_RULES) {
     const score = scoreMatches(normalizedInput, rule.keywords);
+    if (score === 0) {
+      continue;
+    }
+
     if (score > bestScore || (score === bestScore && priority[rule.type] > priority[bestType])) {
       bestType = rule.type;
       bestScore = score;
