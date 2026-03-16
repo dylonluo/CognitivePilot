@@ -3,7 +3,16 @@
   "version": "1.0.0",
   "description": "OpenClaw plugin for cognitive enhancement and guided thought processing",
   "type": "module",
-  "main": "index.ts",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist/index.js",
+    "dist/src",
+    "openclaw.plugin.json",
+    "README.md"
+  ],
   "keywords": [
     "openclaw",
     "openclaw-plugin",
@@ -14,15 +23,18 @@
   "license": "MIT",
   "openclaw": {
     "extensions": [
-      "./index.ts"
+      "./dist/index.js"
     ]
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "check": "tsc --noEmit",
+    "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true }); rmSync('dist-tests', { recursive: true, force: true });\"",
+    "build": "npm run clean && tsc -p tsconfig.build.json",
+    "check": "tsc --noEmit -p tsconfig.json",
     "dev": "node --loader ts-node/esm index.ts",
+    "prepare": "npm run build",
+    "prepack": "npm run build",
     "start": "npm run build && node dist/index.js",
-    "test": "npm run build && node --test dist/tests/**/*.test.js"
+    "test": "npm run clean && tsc -p tsconfig.test.json && node --test dist-tests/tests/**/*.test.js"
   },
   "devDependencies": {
     "ts-node": "^10.9.2",
