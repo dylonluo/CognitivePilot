@@ -1,77 +1,162 @@
-# 🧠 Nine Dimensions Thinking Framework / 九维思考框架
+# nine-dimensions
 
----
+[English](./README.md) | [中文](./README.zh-CN.md)
 
-## English Version
+A Claude Code skill for complex decisions, strategic planning, problem diagnosis, and personal growth.
 
-### What is Nine Dimensions?
-Nine Dimensions is a powerful cognitive enhancement Skill for OpenClaw that leverages mental models inspired by nine great historical thinkers to help you analyze complex problems, make decisions, and grow personally and professionally.
+Instead of giving surface-level advice, `nine-dimensions` reframes a problem through nine classic thinking models:
 
-### Core Concept: "Human-Sword Unity" (人剑合一)
-- Users provide questions, intuition, and final decisions.
-- AI executes parallel thinking across nine models, exposing blind spots and generating structured insights.
-
-### The Nine Thinkers and Models
 1. Aristotle - First Principles Thinking
 2. Mao Zedong - Contradiction Analysis
 3. McKinsey - 7-Step Problem Solving + MECE
 4. Toyota - 5 Why Root Cause Analysis
-5. Hegel - Dialectical Thesis-Antithesis-Synthesis
+5. Hegel - Thesis, Antithesis, Synthesis
 6. De Bono - Six Thinking Hats
 7. Munger - Multi-Disciplinary Mental Models
 8. Pareto - 80/20 Rule
 9. Eisenhower - Priority Matrix
 
-### Flexible Combination
-Adapt thinking depth to problem complexity and time
-- Quick (3-5 min): 2-3 core models
-- Standard (10-15 min): 4-5 models
-- Deep (20-30 min): All nine models
+Typical questions this skill is designed for:
 
-### Usage
-Ask the AI for "Nine Dimensions Analysis" on your problems, and receive multi-perspective insights with actionable recommendations.
+- Should I quit my job to start a company?
+- Why does this problem keep repeating?
+- Why is the team not aligning?
+- How should this strategy or plan be designed?
+- What should I prioritize, delay, delegate, or stop?
 
-### Why Use This Skill?
-- Structure complex problems clearly
-- Uncover hidden contradictions and assumptions
-- Prioritize effectively
-- Boost decision quality
+## What This Repository Is
 
----
+This repository now contains a real **skill**, not an OpenClaw plugin.
 
-## 中文版
+Its goal is not to decide for the user, but to help the AI produce structured thinking around:
 
-### 什么是九维思考框架？
-nine-dimensions 是一个强大的认知增强 Skill，基于九位伟人经典思维模型，帮助你深入分析复杂问题，支持决策和个人成长。
+- the real problem
+- the main contradiction
+- the critical few factors
+- the root cause chain
+- action priorities
+- the decisions the user still needs to make
 
-### 核心理念：人剑合一
-- 用户提供问题和直觉判断
-- AI 并行执行九种思维模式，曝光盲点，生成结构化洞察
+## When To Use It
 
-### 九个伟人与思维模型
-1. 亚里士多德 - 第一性原理
-2. 毛泽东 - 矛盾分析法
-3. 麦肯锡 - 七步解决法 + MECE
-4. 丰田 - 5Why根因分析
-5. 黑格尔 - 辩证法正反合
-6. 德博诺 - 六顶思考帽
-7. 芒格 - 跨学科思维模型
-8. 帕累托 - 二八法则
-9. 艾森豪威尔 - 优先级矩阵
+- major decisions
+- strategic planning
+- complex problem diagnosis
+- interpersonal or collaboration analysis
+- personal growth and career choices
 
-### 灵活组合
-根据问题复杂度和时间，选择使用不同数量的维度：
-- 快速 (3-5分钟)：2-3个核心模型
-- 标准 (10-15分钟)：4-5个模型
-- 深度 (20-30分钟)：全部9个模型
+## Framework Depth
 
-### 使用方法
-对 AI 说“帮我做九维分析”，获得多视角的洞察和可执行的建议。
+The skill supports three levels of depth:
 
-### 为什么要用这个 Skill？
-- 清晰结构化复杂问题
-- 发现隐藏的矛盾和假设
-- 有效优先排序
-- 提升决策质量
+- `four-questions`
+  Best for quick judgment, technical issues, and simple decisions
+- `six-dimensions`
+  The default for most medium-complexity problems
+- `nine-dimensions`
+  Best for high-impact, high-uncertainty, major decisions
 
----
+If a problem does not need the full nine dimensions, use the flexible combination guide and choose the smallest useful set of models.
+
+## Quick Start
+
+Recommended workflow:
+
+1. Read [SKILL.md](/Users/dylonluo/Downloads/CognitivePilot-main/SKILL.md) for triggers, depth selection, and output rules.
+2. Choose the right prompt based on problem complexity:
+   `four-questions`, `six-dimensions`, or `nine-dimensions`
+3. If the case is unusual or time-constrained, use [flexible-combinations.md](/Users/dylonluo/Downloads/CognitivePilot-main/flexible-combinations.md).
+4. If you want a consistent output style, check the matching examples in `examples/`.
+
+## Install
+
+This is a Claude Code custom skill, not a plugin.
+
+Claude Code discovers skills from:
+
+- project scope: `.claude/skills/<skill-name>/`
+- personal scope: `~/.claude/skills/<skill-name>/`
+
+### Install for one project
+
+```bash
+mkdir -p .claude/skills
+cp -R /path/to/nine-dimensions .claude/skills/nine-dimensions
+```
+
+Then start a new Claude Code session in that project.
+
+### Install globally
+
+```bash
+mkdir -p ~/.claude/skills
+cp -R /path/to/nine-dimensions ~/.claude/skills/nine-dimensions
+```
+
+Then restart Claude Code or open a new session.
+
+### Local development sync
+
+```bash
+mkdir -p ~/.claude/skills
+rsync -av --delete /path/to/CognitivePilot-main/ ~/.claude/skills/nine-dimensions/
+```
+
+After each update, sync again and start a new session.
+
+### Verify It Works
+
+Try prompts like:
+
+- `Help me do a nine-dimensions analysis`
+- `Should I quit my job to start a company?`
+- `Why does this problem keep repeating?`
+- `Analyze this with first principles and contradiction analysis`
+
+If installation is correct, Claude Code should discover and use this skill when relevant.
+
+## Repository Structure
+
+```text
+.
+├── SKILL.md
+├── prompts/
+│   ├── four-questions.md
+│   ├── six-dimensions.md
+│   └── nine-dimensions.md
+├── examples/
+│   ├── technical.md
+│   ├── interpersonal.md
+│   └── strategic.md
+├── flexible-combinations.md
+└── README.zh-CN.md
+```
+
+## Files
+
+- [SKILL.md](/Users/dylonluo/Downloads/CognitivePilot-main/SKILL.md)
+  Main skill entry: triggers, framework selection, output rules
+- [prompts/four-questions.md](/Users/dylonluo/Downloads/CognitivePilot-main/prompts/four-questions.md)
+  Quick framework for simple cases
+- [prompts/six-dimensions.md](/Users/dylonluo/Downloads/CognitivePilot-main/prompts/six-dimensions.md)
+  Default framework for medium-complexity cases
+- [prompts/nine-dimensions.md](/Users/dylonluo/Downloads/CognitivePilot-main/prompts/nine-dimensions.md)
+  Full deep-analysis framework for high-impact decisions
+- [flexible-combinations.md](/Users/dylonluo/Downloads/CognitivePilot-main/flexible-combinations.md)
+  Guidance for choosing the smallest useful combination of models
+- [examples/technical.md](/Users/dylonluo/Downloads/CognitivePilot-main/examples/technical.md)
+  Technical example
+- [examples/interpersonal.md](/Users/dylonluo/Downloads/CognitivePilot-main/examples/interpersonal.md)
+  Interpersonal example
+- [examples/strategic.md](/Users/dylonluo/Downloads/CognitivePilot-main/examples/strategic.md)
+  Strategic example
+- [README.zh-CN.md](/Users/dylonluo/Downloads/CognitivePilot-main/README.zh-CN.md)
+  Chinese version of the repository homepage
+
+## Current Scope
+
+- a reusable nine-dimensions skill
+- a set of structured prompts
+- a set of example outputs
+
+This repository no longer contains the old plugin runtime code.
