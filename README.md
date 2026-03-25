@@ -20,7 +20,6 @@ Instead of giving surface-level advice, `nine-dimensions` reframes a problem thr
 
 Typical questions this skill is designed for:
 
-- Should I quit my job to start a company?
 - Why does this problem keep repeating?
 - Why is the team not aligning?
 - How should this strategy or plan be designed?
